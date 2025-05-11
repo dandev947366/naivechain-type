@@ -5,9 +5,13 @@ import {calculateHash} from './utils'
 // Blockchain state
 let blockchain: Readonly<IBlock>[] = [Block.GENESIS_BLOCK];
 const genesisBlock: IBlock = Block.GENESIS_BLOCK;
-const getBlockchain = (): Readonly<IBlock>[] => blockchain;
+const getBlockchain = (): Readonly<IBlock>[] => {
+    // Return a deep-frozen copy
+    const copy = JSON.parse(JSON.stringify(blockchain));
+    return Object.freeze(copy);
+};
 const getLatestBlock = (): Readonly<IBlock> => blockchain[blockchain.length - 1];
-const addBlock = (newBlock: Block) => {
+const addBlock = (newBlock: Block): void => {
     if (isValidNewBlock(newBlock, getLatestBlock())) {
         blockchain.push(newBlock);
     }
