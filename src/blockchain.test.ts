@@ -66,14 +66,17 @@ describe("Blockchain", () => {
                 Date.now(),
                 "Test Data"
             );
+            newBlock.hash = newBlock.calculateHash(); // ✅ Calculate the correct hash
+        
             addBlock(newBlock);
             const latest = getLatestBlock();
-    
+        
             // Check properties, not object reference
             expect(latest.index).toBe(1);
             expect(latest.previousHash).toBe(Block.GENESIS_BLOCK.hash);
             expect(latest.data).toBe("Test Data");
         });
+        
 
         test("should return correct block when multiple blocks are added", () => {
             const newBlock1 = new Block(1, genesisBlock.hash, Date.now(), "Test Data 1");

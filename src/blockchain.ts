@@ -1,6 +1,6 @@
 import {Block} from "./block";
 import { IBlock } from "./interface";
-import {isValidNewBlock} from './validations'
+import {isValidNewBlock, isValidChain} from './validations'
 import {calculateHash} from './utils'
 // Blockchain state
 let blockchain: Readonly<IBlock>[] = [Block.GENESIS_BLOCK];
@@ -13,7 +13,9 @@ const getBlockchain = (): Readonly<IBlock>[] => {
 const getLatestBlock = (): Readonly<IBlock> => blockchain[blockchain.length - 1];
 const addBlock = (newBlock: Block): void => {
     if (isValidNewBlock(newBlock, getLatestBlock())) {
-        blockchain.push(newBlock);
+        blockchain.push(newBlock); // This must be the global blockchain
+    } else {
+        throw new Error("Invalid block");
     }
 };
 const generateNextBlock = (blockData: string): Block => {
@@ -42,6 +44,14 @@ const generateNextBlock = (blockData: string): Block => {
     addBlock(newBlock)
     return newBlock;
 }
+const replaceChain = (newBlocks: Block[]): void => {
+    if (isValidChain(newBlocks) && newBlocks.length > getBlockchain().length) {
+        console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
+        blockchain = newBlocks;
+    } else {
+        console.log('Received blockchain invalid');
+    }
+};
 
 export {
     genesisBlock,
@@ -49,5 +59,6 @@ export {
     getLatestBlock,
     addBlock,
     generateNextBlock,
-    blockchain
+    blockchain,
+    replaceChain
 }
