@@ -20,7 +20,7 @@ export class Block implements IBlock {
     this.data = data;
     this.hash = hash ?? this.calculateHash();
   }
-  private calculateHash(): string {
+  public calculateHash(): string {
     return CryptoJS.SHA256(
       this.index + this.previousHash + this.timestamp + this.data
     ).toString();

@@ -12,8 +12,8 @@ const addBlock = (newBlock: Block) => {
         blockchain.push(newBlock);
     }
 };
-export const generateNextBlock = (blockData: string): Block => {
-    const previousBlock: Readonly<Block> = getLatestBlock()
+const generateNextBlock = (blockData: string): Block => {
+    const previousBlock: Readonly<IBlock> = getLatestBlock()
     const nextIndex: number = previousBlock.index + 1
     const nextTimestamp: number = Math.floor(Date.now()/1000)
     if (typeof blockData !== 'string' || blockData.length === 0){
@@ -37,4 +37,13 @@ export const generateNextBlock = (blockData: string): Block => {
     }
     addBlock(newBlock)
     return newBlock;
+}
+
+export {
+    genesisBlock,
+    getBlockchain,
+    getLatestBlock,
+    addBlock,
+    generateNextBlock,
+    blockchain
 }

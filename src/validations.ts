@@ -1,5 +1,6 @@
 import { calculateHash, calculateHashForBlock } from "./utils";
 import { IBlock } from "./interface";
+import {genesisBlock} from './blockchain'
 // Block validation
 const isValidNewBlock = (newBlock: IBlock, previousBlock: IBlock): boolean => {
     if (previousBlock.index + 1 !== newBlock.index) {
